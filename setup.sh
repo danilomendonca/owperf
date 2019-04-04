@@ -38,19 +38,18 @@ fi
 shift 2
 wskparams="$@"	# All other parameters are assumed to be OW-specific
 
-
 function remove_assets() {
 
 	# Delete rules
 	for i in $(seq 1 $delcount); do
-    		wsk rule delete testRule_$i $@;
+    		wsk rule delete testRule_$i $wskparams;
 	done
 
 	# Delete trigger
-	wsk trigger delete testTrigger $@
+	wsk trigger delete testTrigger $wskparams
 
 	# Delete action
-	wsk action delete testAction $@
+	wsk action delete testAction $wskparams
 
 }
 
@@ -58,14 +57,14 @@ function remove_assets() {
 function deploy_assets() {
 
 	# Create action
-	wsk action create testAction testAction.js --kind nodejs:8 $@
+	wsk action create testAction testAction.js --kind nodejs:8 $wskparams
 
 	# Create trigger after deleting it
-	wsk trigger create testTrigger $@
+	wsk trigger create testTrigger $wskparams
 
 	# Create rules
 	for i in $(seq 1 $count); do
-    		wsk rule create testRule_$i testTrigger testAction $@;
+    		wsk rule create testRule_$i testTrigger testAction $wskparams;
 	done
 
 }
@@ -78,4 +77,3 @@ remove_assets
 if [ "$op" = "s" ]; then
 	deploy_assets
 fi
-
