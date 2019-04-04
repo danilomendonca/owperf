@@ -29,6 +29,7 @@ const cluster = require('cluster');
 const openwhisk = require('openwhisk');
 const program = require('commander');
 const exec = require('node-exec-promise').exec;
+const random = require('random')
 
 const ACTION = "action";
 const RULE = "rule";
@@ -346,7 +347,7 @@ async function mainLoop() {
 
     while (!abort) {
 
-        let nextInvocation = randomExponential(delta);
+        let nextInvocation = random.exponential(delta); //randomExponential(delta);
 
         // ----
         // Pass init (worker - send message) after <warmup> iterations
