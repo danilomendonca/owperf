@@ -344,10 +344,11 @@ async function mainLoop() {
     const blocking = ((cluster.isWorker || !testRecord.input.master_blocking) ? testRecord.input.blocking : testRecord.input.master_blocking);
     const doBlocking = (blocking != NONE);
     const getResult = (blocking == RESULT);
+    const exponentialDistribution = random.exponential(delta);
 
     while (!abort) {
 
-        let nextInvocation = random.exponential(delta); //randomExponential(delta);
+        let nextInvocation = exponentialDistribution(); //randomExponential(delta);        
 
         // ----
         // Pass init (worker - send message) after <warmup> iterations
