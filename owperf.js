@@ -339,14 +339,14 @@ function checkSummary() {
 async function mainLoop() {
 
     var warmupCounter = testRecord.input.warmup;
-    let delta = ((cluster.isWorker || !testRecord.input.master_delta) ? testRecord.input.delta : testRecord.input.master_delta);
+    const delta = ((cluster.isWorker || !testRecord.input.master_delta) ? testRecord.input.delta : testRecord.input.master_delta);
     const blocking = ((cluster.isWorker || !testRecord.input.master_blocking) ? testRecord.input.blocking : testRecord.input.master_blocking);
     const doBlocking = (blocking != NONE);
     const getResult = (blocking == RESULT);
 
-    delta = randomExponential(delta);
-
     while (!abort) {
+
+        let nextInvocation = randomExponential(delta);
 
         // ----
         // Pass init (worker - send message) after <warmup> iterations
@@ -385,7 +385,7 @@ async function mainLoop() {
 
         const ei = new Date().getTime();    // EI = End of Iteration timestamp
         const duration = ei - si;
-        if (delta > duration) {
+        if (nextInvocation > duration) {
             loopSleeper = sleep(delta - duration);
             if (!abort)        // check again to avoid race condition on loopSleeper
                 await loopSleeper;
