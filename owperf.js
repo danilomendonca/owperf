@@ -339,7 +339,7 @@ function checkSummary() {
 async function mainLoop() {
 
     var warmupCounter = testRecord.input.warmup;
-    const delta = ((cluster.isWorker || !testRecord.input.master_delta) ? testRecord.input.delta : testRecord.input.master_delta);
+    let delta = ((cluster.isWorker || !testRecord.input.master_delta) ? testRecord.input.delta : testRecord.input.master_delta);
     const blocking = ((cluster.isWorker || !testRecord.input.master_blocking) ? testRecord.input.blocking : testRecord.input.master_blocking);
     const doBlocking = (blocking != NONE);
     const getResult = (blocking == RESULT);
