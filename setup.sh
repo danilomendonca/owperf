@@ -40,31 +40,30 @@ wskparams="$@"	# All other parameters are assumed to be OW-specific
 
 function remove_assets() {
 
-	# Delete rules
 	for i in $(seq 1 $delcount); do
+		    # Delete rules
     		wsk rule delete testRule_$i $wskparams;
+
+				# Delete trigger
+				wsk trigger delete testTrigger_$i $wskparams
+
+				# Delete action
+				wsk action delete testAction_$i $wskparams
 	done
-
-	# Delete trigger
-	wsk trigger delete testTrigger $wskparams
-
-	# Delete action
-	wsk action delete testAction $wskparams
-
 }
 
 
 function deploy_assets() {
 
-	# Create action
-	wsk action create testAction testActions/testAction.py --kind python:2 $wskparams
-
-	# Create trigger after deleting it
-	wsk trigger create testTrigger $wskparams
-
-	# Create rules
 	for i in $(seq 1 $count); do
-    		wsk rule create testRule_$i testTrigger testAction $wskparams;
+		# Create action
+		wsk action create testAction_$i testActions/testAction.py --kind python:2 $wskparams
+
+		# Create trigger after deleting it
+		wsk trigger create testTrigger_$i $wskparams
+
+		# Create rules
+		wsk rule create testRule_$i testTrigger testAction $wskparams;
 	done
 
 }
