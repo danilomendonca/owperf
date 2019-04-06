@@ -63,7 +63,7 @@ function deploy_assets() {
 		wsk trigger create testTrigger_$i $wskparams
 
 		# Create rules
-		wsk rule create testRule_$i testTrigger testAction $wskparams;
+		wsk rule create testRule_$i testTrigger_$i testAction_$i $wskparams;
 	done
 
 }
