@@ -416,7 +416,7 @@ function invokeActions(count, doBlocking, getResult, burst_bi) {
         for(var i = 0; i< count; i++) {
             ipa[i] = new Promise((resolve, reject) => {
                 const bi = (testRecord.input.burst_timing ? burst_bi : new Date().getTime());  // default is BI per invocation
-                ow.actions.invoke({name: 'testAction_' + i, blocking: doBlocking, result: getResult, params: params})
+                ow.actions.invoke({name: 'testAction_' + (i+1), blocking: doBlocking, result: getResult, params: params})
                     // If returnedJSON is full activation or just activation ID then activation ID should be in "activationId" field
                     // If returnedJSON is the result of the test action, then "activationId" is part of the returned result of the test action
                     .then(returnedJSON => {
